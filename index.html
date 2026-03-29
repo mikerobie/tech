@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mike Robie — HR Pro Turned Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:       #0a0a0a;
+    --navy-deep:  #050505;
+    --navy-mid:   #1a1a1a;
+    --blue-acc:   #555555;
+    --blue-light: #e8e8e8;
+    --white:      #ffffff;
+    --off-white:  #f5f5f5;
+    --text:       #0a0a0a;
+    --muted:      #666666;
+    --border:     #e0e0e0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--white);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  @media (min-width: 768px) { .container { padding: 0 48px; } }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; padding: 0 20px;
+    max-width: 1120px; margin: 0 auto;
+  }
+  @media (min-width: 768px) { .nav-inner { padding: 0 48px; } }
+
+  .nav-logo {
+    font-weight: 700; font-size: 1.05rem; letter-spacing: 0.01em;
+    color: var(--navy); text-decoration: none;
+    display: flex; align-items: center;
+  }
+  .nav-logo-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--blue-acc); border-radius: 50%;
+    margin-left: 4px; margin-bottom: 1px;
+  }
+  .nav-links { display: none; gap: 32px; list-style: none; align-items: center; }
+  @media (min-width: 768px) { .nav-links { display: flex; } }
+  .nav-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.875rem; font-weight: 500; transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--navy); }
+  .btn-nav {
+    background: var(--navy); color: var(--white) !important;
+    padding: 9px 20px; border-radius: 6px;
+    font-size: 0.875rem !important; font-weight: 600 !important;
+    transition: background 0.15s !important;
+  }
+  .btn-nav:hover { background: var(--navy-mid) !important; }
+
+  .nav-hamburger {
+    display: flex; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  @media (min-width: 768px) { .nav-hamburger { display: none; } }
+  .nav-hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--navy); border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed;
+    top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--white); z-index: 199;
+    flex-direction: column; padding: 24px 20px; gap: 0;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    text-decoration: none; color: var(--text);
+    font-size: 1.05rem; font-weight: 500;
+    padding: 16px 0; border-bottom: 1px solid var(--border); display: block;
+  }
+  .mobile-menu .btn-mobile-cta {
+    margin-top: 24px; background: var(--navy); color: var(--white);
+    text-align: center; border-radius: 8px; border: none;
+    padding: 16px; font-size: 1rem; font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 104px 0 64px;
+    background: var(--navy);
+    position: relative; overflow: hidden;
+  }
+  @media (min-width: 768px) { .hero { padding: 140px 0 100px; } }
+
+  .hero-inner {
+    display: grid; gap: 48px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 20px;
+  }
+  .eyebrow-line { display: block; width: 20px; height: 1px; background: rgba(255,255,255,0.35); }
+  .hero-title {
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+    font-weight: 700; line-height: 1.1; letter-spacing: -0.025em;
+    color: var(--white); margin-bottom: 22px;
+  }
+  .hero-title-accent { color: rgba(255,255,255,0.5); }
+  .hero-sub {
+    font-size: clamp(0.97rem, 2vw, 1.08rem);
+    color: rgba(255,255,255,0.55);
+    line-height: 1.78; margin-bottom: 36px; max-width: 500px;
+  }
+  .hero-sub strong { color: rgba(255,255,255,0.88); font-weight: 500; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--white); color: var(--navy);
+    text-decoration: none; padding: 14px 26px;
+    font-weight: 600; font-size: 0.93rem; border-radius: 6px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+  .btn-arrow { transition: transform 0.2s; }
+  .btn-primary:hover .btn-arrow { transform: translateX(4px); }
+
+  .hero-right { display: flex; flex-direction: column; gap: 14px; }
+  @media (max-width: 899px) { .hero-right { display: none; } }
+
+  .stat-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 22px 26px;
+    transition: background 0.2s;
+  }
+  .stat-card:hover { background: rgba(255,255,255,0.1); }
+  .stat-number {
+    font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em;
+    color: var(--white); line-height: 1; margin-bottom: 5px;
+  }
+  .stat-label { font-size: 0.83rem; color: rgba(255,255,255,0.42); }
+
+  /* TRUST BAR */
+  .logobar {
+    background: var(--off-white); border-bottom: 1px solid var(--border);
+    padding: 14px 0; overflow-x: auto;
+  }
+  .logobar-inner {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    font-size: 0.76rem; font-weight: 500;
+    color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .lb-dot {
+    width: 4px; height: 4px; background: var(--border);
+    border-radius: 50%; flex-shrink: 0;
+    display: none;
+  }
+  @media (min-width: 600px) { .lb-dot { display: block; } }
+
+  /* SECTION COMMON */
+  .section-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--blue-acc); margin-bottom: 14px;
+  }
+  .section-eyebrow::before {
+    content: ''; display: block; width: 18px; height: 1px; background: var(--blue-acc);
+  }
+  .section-title {
+    font-size: clamp(1.65rem, 3.5vw, 2.5rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.2; color: var(--navy);
+  }
+
+  /* PROBLEM → "What I've Noticed" */
+  .problem { padding: 72px 0; background: var(--white); }
+  @media (min-width: 768px) { .problem { padding: 100px 0; } }
+
+  .problem-intro {
+    font-size: 1rem; color: var(--muted); line-height: 1.75;
+    max-width: 600px; margin: 18px 0 48px;
+  }
+  .problem-grid {
+    display: grid; gap: 2px; grid-template-columns: 1fr;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+  }
+  @media (min-width: 768px) { .problem-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .problem-item {
+    background: var(--white); padding: 32px 28px;
+    transition: background 0.15s;
+  }
+  .problem-item:hover { background: var(--off-white); }
+  .problem-num {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--blue-acc); margin-bottom: 12px; text-transform: uppercase;
+  }
+  .problem-item h3 { font-size: 0.98rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+  .problem-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+  /* SERVICES → "What I Build" */
+  .services {
+    padding: 72px 0; background: var(--off-white);
+    border-top: 1px solid var(--border);
+  }
+  @media (min-width: 768px) { .services { padding: 100px 0; } }
+
+  .services-header {
+    display: grid; gap: 20px; grid-template-columns: 1fr; margin-bottom: 44px;
+  }
+  @media (min-width: 768px) {
+    .services-header { grid-template-columns: 1fr 1fr; align-items: end; gap: 60px; }
+  }
+  .services-intro { font-size: 0.97rem; color: var(--muted); line-height: 1.75; }
+
+  .service-grid {
+    display: grid; gap: 14px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 580px) { .service-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .service-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 32px 28px;
+    border-top: 3px solid transparent;
+    transition: border-top-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .service-card:hover {
+    border-top-color: var(--navy);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+  .service-icon { font-size: 1.4rem; margin-bottom: 16px; display: block; }
+  .service-card h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+  .service-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .service-bullets { margin-top: 16px; list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .service-bullets li {
+    font-size: 0.83rem; color: var(--muted);
+    display: flex; align-items: baseline; gap: 7px;
+  }
+  .service-bullets li::before { content: '→'; color: var(--navy); font-size: 0.72rem; flex-shrink: 0; font-weight: 600; }
+
+  /* ABOUT */
+  .about { padding: 72px 0; background: var(--navy); }
+  @media (min-width: 768px) { .about { padding: 100px 0; } }
+
+  .about-inner {
+    display: grid; gap: 48px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .about-inner { grid-template-columns: 1fr 1fr; align-items: start; gap: 72px; }
+  }
+
+  .about-left .section-eyebrow { color: rgba(255,255,255,0.35); }
+  .about-left .section-eyebrow::before { background: rgba(255,255,255,0.2); }
+  .about-title {
+    font-size: clamp(1.65rem, 3vw, 2.3rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.2; color: var(--white); margin-bottom: 26px;
+  }
+  .about-title span { color: rgba(255,255,255,0.5); }
+  .about-body p { font-size: 0.94rem; color: rgba(255,255,255,0.5); line-height: 1.8; margin-bottom: 14px; }
+  .about-body p:last-child { margin-bottom: 0; }
+  .about-body strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  .credentials { display: flex; flex-direction: column; gap: 10px; margin-top: 32px; }
+  .credential {
+    display: flex; align-items: center; gap: 11px;
+    font-size: 0.86rem; color: rgba(255,255,255,0.45); font-weight: 500;
+  }
+  .cred-check {
+    width: 20px; height: 20px; background: rgba(255,255,255,0.15);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cred-check svg { width: 10px; height: 10px; fill: none; stroke: white; stroke-width: 2.5; }
+
+  .about-right {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 36px 32px;
+  }
+  .about-quote {
+    font-size: 1.1rem; font-weight: 500; line-height: 1.65;
+    color: var(--white); margin-bottom: 20px; font-style: italic;
+  }
+  .about-divider { width: 36px; height: 2px; background: rgba(255,255,255,0.2); margin: 24px 0; }
+  .about-right p { font-size: 0.9rem; color: rgba(255,255,255,0.45); line-height: 1.78; }
+
+  /* PROCESS */
+  .process { padding: 72px 0; background: var(--white); border-top: 1px solid var(--border); }
+  @media (min-width: 768px) { .process { padding: 100px 0; } }
+
+  .process-header { margin-bottom: 48px; }
+  .process-subtitle { font-size: 0.97rem; color: var(--muted); margin-top: 12px; max-width: 500px; line-height: 1.7; }
+
+  .process-steps {
+    display: grid; gap: 16px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 580px) { .process-steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .process-steps { grid-template-columns: repeat(4, 1fr); } }
+
+  .process-step {
+    padding: 28px 24px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--white); transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .process-step:hover { border-color: var(--navy); box-shadow: 0 4px 18px rgba(0,0,0,0.06); }
+  .step-num {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--blue-acc); margin-bottom: 14px;
+  }
+  .process-step h3 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+  .process-step p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
+
+  /* CTA */
+  .cta-section { padding: 72px 0; background: var(--navy-deep); }
+  @media (min-width: 768px) { .cta-section { padding: 100px 0; } }
+
+  .cta-inner {
+    display: grid; gap: 36px; grid-template-columns: 1fr; align-items: center;
+  }
+  @media (min-width: 768px) { .cta-inner { grid-template-columns: 1fr auto; gap: 80px; } }
+
+  .cta-eyebrow {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cta-eyebrow::before { content: ''; display: block; width: 18px; height: 1px; background: rgba(255,255,255,0.3); }
+  .cta-title {
+    font-size: clamp(1.65rem, 3vw, 2.3rem);
+    font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+    color: var(--white); margin-bottom: 14px;
+  }
+  .cta-sub { font-size: 0.95rem; color: rgba(255,255,255,0.42); line-height: 1.75; max-width: 500px; }
+
+  .btn-cta {
+    display: inline-flex; flex-direction: column; align-items: center;
+    background: var(--white); color: var(--navy);
+    text-decoration: none; padding: 20px 36px;
+    font-weight: 700; font-size: 1rem;
+    border-radius: 8px; transition: background 0.15s, transform 0.15s;
+    text-align: center; white-space: nowrap;
+  }
+  @media (max-width: 767px) { .btn-cta { width: 100%; } }
+  .btn-cta:hover { background: var(--blue-light); transform: translateY(-2px); }
+  .btn-cta-sub { font-size: 0.72rem; font-weight: 400; color: var(--muted); margin-top: 4px; }
+
+  /* FOOTER */
+  footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); padding: 36px 0; }
+  .footer-inner {
+    display: flex; flex-direction: column; gap: 18px; align-items: flex-start;
+  }
+  @media (min-width: 600px) {
+    .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+  .footer-logo { font-weight: 700; font-size: 0.92rem; color: rgba(255,255,255,0.55); }
+  .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.22); }
+  .footer-links { display: flex; gap: 22px; list-style: none; flex-wrap: wrap; }
+  .footer-links a { text-decoration: none; font-size: 0.8rem; color: rgba(255,255,255,0.3); transition: color 0.15s; }
+  .footer-links a:hover { color: rgba(255,255,255,0.65); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75); z-index: 999;
+    backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 12px;
+    padding: 40px 36px; max-width: 510px; width: 100%;
+    position: relative; animation: fadeUp 0.25s both;
+    max-height: 90vh; overflow-y: auto;
+  }
+  @media (max-width: 480px) { .modal { padding: 28px 20px; } }
+  .modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; font-size: 1.4rem;
+    cursor: pointer; color: var(--muted); line-height: 1; padding: 4px;
+  }
+  .modal-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 5px; }
+  .modal-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; border: 1px solid var(--border);
+    background: var(--white); padding: 10px 13px;
+    font-family: 'Inter', sans-serif; font-size: 0.92rem;
+    color: var(--text); outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    border-radius: 6px; appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+  }
+  .form-group textarea { resize: vertical; min-height: 86px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 460px) { .form-row { grid-template-columns: 1fr; } }
+
+  .btn-submit {
+    width: 100%; background: var(--navy); color: var(--white);
+    border: none; padding: 13px; border-radius: 6px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.93rem;
+    cursor: pointer; transition: background 0.15s; margin-top: 4px;
+  }
+  .btn-submit:hover { background: var(--navy-mid); }
+  .form-note { text-align: center; font-size: 0.74rem; color: var(--muted); margin-top: 10px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp 0.65s both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <img src="./assets/mike-robie.png" alt="Mike Robie" style="width:45px;height:45px;border-radius:50%;object-fit:cover;margin-right:10px;">
+      Mike Robie<span class="nav-logo-dot"></span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#" class="btn-nav" onclick="openModal(event)">Get In Touch</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#work" onclick="closeMobileMenu()">Work</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#process" onclick="closeMobileMenu()">Process</a>
+  <a href="#" class="btn-mobile-cta" onclick="closeMobileMenu(); openModal(event)">Get In Touch →</a>
+</div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow fade-in">
+          <span class="eyebrow-line"></span>HR Pro &middot; Builder &middot; Problem Solver
+        </div>
+        <h1 class="hero-title fade-in delay-1">
+          I build things that<br>make work <span class="hero-title-accent">work.</span>
+        </h1>
+        <p class="hero-sub fade-in delay-2">
+          Here's the deal. I've spent 18 years inside <strong>federal HR</strong> — classification, staffing, compliance, all of it.
+          Then I taught myself to code. Now I build tools, micro apps, and simple systems that solve the problems
+          I used to solve with spreadsheets and stubbornness.
+        </p>
+        <a href="#work" class="btn-primary fade-in delay-3">
+          See What I'm Building <span class="btn-arrow">→</span>
+        </a>
+      </div>
+      <div class="hero-right">
+        <div class="stat-card">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Years in federal people operations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">HR + Code</div>
+          <div class="stat-label">Domain expertise meets technical execution</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Ship It</div>
+          <div class="stat-label">From idea to working product — fast</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TRUST BAR ═══════════════ -->
+<div class="logobar">
+  <div class="container">
+    <div class="logobar-inner">
+      <span>Federal HR</span>
+      <span class="lb-dot"></span>
+      <span>Python &amp; JavaScript</span>
+      <span class="lb-dot"></span>
+      <span>Web Apps &amp; SaaS</span>
+      <span class="lb-dot"></span>
+      <span>AI-Assisted Development</span>
+      <span class="lb-dot"></span>
+      <span>Process Automation</span>
+      <span class="lb-dot"></span>
+      <span>Excel &amp; VBA</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ THE GAP ═══════════════ -->
+<section class="problem">
+  <div class="container">
+    <div class="section-eyebrow">Here's What I've Noticed</div>
+    <h2 class="section-title">Most HR technology is built by people<br>who've never done HR.</h2>
+    <p class="problem-intro">
+      And most HR people have no way to build the tools they actually need. I sit right in the middle of that gap. Here's what that looks like in the real world:
+    </p>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <div class="problem-num">01</div>
+        <h3>The spreadsheet that runs everything</h3>
+        <p>Somewhere in your org, there's a mission-critical Excel file held together by VLOOKUP and prayers. Nobody wants to touch it. Everybody depends on it. That's a tool problem disguised as a people problem.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">02</div>
+        <h3>Compliance checks done by memory</h3>
+        <p>ICTAP clearance, FLSA classification, JOA requirements — the knowledge lives in somebody's head. When that person's out, the process stops. When that person leaves, the knowledge walks out the door.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">03</div>
+        <h3>Hiring workflows built for 2009</h3>
+        <p>Multiple approval layers, manual cert tracking, assessment processes that screen out good candidates. The role stays open for months. The team stays stretched. Everybody blames "the system."</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">04</div>
+        <h3>"We need an app for that"</h3>
+        <p>You know exactly what tool would fix the problem. You can describe every screen. But you can't build it, IT has a two-year backlog, and the vendor solution costs $80K/year and does half of what you need.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">05</div>
+        <h3>Good ideas stuck in slide decks</h3>
+        <p>You pitched it. Leadership liked it. Then it went into the "future initiatives" pile, which is where good ideas go to collect dust. What it needed was a working prototype, not another presentation.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">06</div>
+        <h3>AI hype, zero execution</h3>
+        <p>Everyone's talking about AI transforming HR. Nobody's actually building anything. The gap isn't knowledge — it's someone who understands both the domain and the tech well enough to make something real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ WORK / PORTFOLIO ═══════════════ -->
+<section class="services" id="work">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <div class="section-eyebrow">What I Build</div>
+        <h2 class="section-title">Real tools for real problems.<br>Not demos. Not decks.</h2>
+      </div>
+      <p class="services-intro">I build working software that solves specific operational problems — mostly in the HR and people-ops space. Every project listed here started with a real pain point and ended with something somebody actually uses.</p>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <span class="service-icon">🔍</span>
+        <h3>Federal HR Tooling</h3>
+        <p>The tools I wished existed when I was the one doing the work. Resume keyword screeners, ICTAP compliance checklists, JOA compliance checkers that pull directly from USAJOBS, and vacancy comparison apps for position classification benchmarking — all built to handle the specific edge cases that generic software ignores.</p>
+        <ul class="service-bullets">
+          <li>Resume keyword screener (Python, Excel, VBA)</li>
+          <li>JOA compliance checker with USAJOBS API</li>
+          <li>ICTAP multi-applicant compliance checklist</li>
+          <li>Federal staffing deadline tracker</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">⚡</span>
+        <h3>Web Apps &amp; SaaS</h3>
+        <p>Full-stack products from concept to deployment. I favor lean validation — prove it works before building the infrastructure. Single-file HTML when that's all it needs. React when it isn't. The goal is always the same: does this thing actually solve the problem it claims to solve?</p>
+        <ul class="service-bullets">
+          <li>CalmKit — parenting SaaS for tantrum de-escalation</li>
+          <li>CognoReframe — CBT cognitive distortion worksheet</li>
+          <li>SchoolPing — Gmail-to-SMS school alert system</li>
+          <li>Local Stoic — client-side AI philosophy mentor</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🤖</span>
+        <h3>Automation &amp; AI Integration</h3>
+        <p>If you're doing the same thing more than three times, it should be automated. I build Gmail-to-Calendar bots, scheduled content systems, data pipeline automations, and AI-powered workflows that take the repetitive garbage off your plate so you can focus on work that actually requires a brain.</p>
+        <ul class="service-bullets">
+          <li>Gmail archiving and alert automations</li>
+          <li>SchoolEventBot — email-to-calendar sync</li>
+          <li>PhiloPost — scheduled social content bot</li>
+          <li>OPM sitemap crawler with GitHub Actions</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📊</span>
+        <h3>Dashboards &amp; Data Viz</h3>
+        <p>Data nobody looks at is worse than no data at all. I build dashboards and visualizations that make complex information actually useful — economic models with live API data, supply chain infographics, habit trackers, and internal decision tools that turn "I think" into "the data says."</p>
+        <ul class="service-bullets">
+          <li>Economic impact dashboard (FRED &amp; Stooq APIs)</li>
+          <li>Petrochemical supply chain network visualization</li>
+          <li>30-Day Rewire habit tracker with Sheets sync</li>
+          <li>Hiring Assessment Decision Tool for IBC</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-left">
+        <div class="section-eyebrow">About Me</div>
+        <h2 class="about-title">
+          HR specialist by trade.<br>
+          Builder <span>by obsession.</span>
+        </h2>
+        <div class="about-body">
+          <p>I spent over a decade in federal HR — the kind where you're elbow-deep in OPM classification standards, building assessment processes under real deadlines, and figuring out how to make a hiring system designed in 1978 work in the modern world.</p>
+          <p>Somewhere along the way, I started learning to code. Not because I wanted to become a software engineer. Because I kept <strong>seeing problems that software could solve</strong> — and nobody was building the solutions. So I did.</p>
+          <p>Now I build tools at the intersection of HR domain expertise and AI-assisted development. Every project starts with a real operational problem, and the measure of success is simple: <strong>does it actually get used?</strong></p>
+        </div>
+        <div class="credentials">
+          <div class="credential">
+            <div class="cred-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1.5"/></svg></div>
+            10+ Years Federal HR
+          </div>
+          <div class="credential">
+            <div class="cred-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1.5"/></svg></div>
+            Python, JavaScript, Excel/VBA
+          </div>
+          <div class="credential">
+            <div class="cred-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1.5"/></svg></div>
+            MSW &amp; Licensed Professional Counselor
+          </div>
+          <div class="credential">
+            <div class="cred-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1.5"/></svg></div>
+            Arlington Heights, IL
+          </div>
+        </div>
+      </div>
+      <div class="about-right">
+        <p class="about-quote">
+          "The best tool is the one that somebody actually uses on a Tuesday afternoon when nobody's watching."
+        </p>
+        <div class="about-divider"></div>
+        <p>I'm not trying to build the next unicorn. I'm trying to build things that save someone 40 minutes a day, eliminate a compliance risk they didn't know they had, or turn a manual process into something that runs itself. That's the work. That's what gets me up in the morning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PROCESS ═══════════════ -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="process-header">
+      <div class="section-eyebrow">How I Work</div>
+      <h2 class="section-title">From napkin sketch to working product.<br>Here's how it goes.</h2>
+      <p class="process-subtitle">I keep it simple. Identify the problem. Build the smallest thing that solves it. Iterate from there.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">Step 01</div>
+        <h3>Find the Real Problem</h3>
+        <p>Not the symptom. Not the thing somebody put in a Jira ticket. The actual root cause — the thing that, if you fixed it, would make three other problems disappear.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">Step 02</div>
+        <h3>Build the Ugly Version</h3>
+        <p>Get something working fast. Prove the concept. Show it to a real user on the first day if possible. Pretty comes later. Functional comes now.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">Step 03</div>
+        <h3>Iterate With Feedback</h3>
+        <p>Put it in front of the people who'll actually use it. Watch what they do. Listen to what they say. Rebuild the parts that don't work. Cut the parts nobody touches.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">Step 04</div>
+        <h3>Ship It Clean</h3>
+        <p>Documented. Deployable. Built so the next person can pick it up without a three-hour walkthrough. If it can't survive without me, it's not done yet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA ═══════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div>
+        <div class="cta-eyebrow">Let's Talk</div>
+        <h2 class="cta-title">Got a problem that needs building?</h2>
+        <p class="cta-sub">Whether it's a federal HR process that should've been automated five years ago, a SaaS idea you can't stop thinking about, or something in between — I'm interested. Drop me a line.</p>
+      </div>
+      <div>
+        <a href="#" class="btn-cta" onclick="openModal(event)">
+          Get In Touch
+          <span class="btn-cta-sub">No pitch. Just a real conversation.</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Mike Robie</div>
+      <div class="footer-copy">© 2025 Mike Robie. All rights reserved.</div>
+      <ul class="footer-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#" onclick="openModal(event)">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ CONTACT MODAL ═══════════════ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2 class="modal-title">Let's Talk</h2>
+    <p class="modal-sub">Tell me what you're working on. I'll get back to you within a day — usually faster.</p>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>What's the project?</label>
+      <select>
+        <option value="" disabled selected>Pick the closest fit</option>
+        <option>Federal HR Tooling</option>
+        <option>Web App / SaaS Build</option>
+        <option>Automation / Integration</option>
+        <option>Dashboard / Data Viz</option>
+        <option>Something else entirely</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tell me more (optional)</label>
+      <textarea placeholder="The problem, the idea, the thing keeping you up at night — whatever's useful."></textarea>
+    </div>
+    <button class="btn-submit">Send Message →</button>
+    <p class="form-note">No spam. No auto-sequences. Just a real reply from a real person.</p>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  const ham = document.getElementById('hamburger');
+  const mob = document.getElementById('mobile-menu');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+    document.body.style.overflow = mob.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMobileMenu() {
+    ham.classList.remove('open');
+    mob.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    closeMobileMenu();
+    document.getElementById('modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+        obs.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.07 });
+
+  document.querySelectorAll('.problem-item, .service-card, .process-step, .stat-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = `opacity 0.5s ease ${(i % 4) * 0.07}s, transform 0.5s ease ${(i % 4) * 0.07}s`;
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
