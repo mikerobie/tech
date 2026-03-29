@@ -1,6 +1,6 @@
 # Mike Robie — Portfolio
 
-**Federal HR Specialist. Licensed Counselor. Builder.**
+**Federal HR Specialist. Builder.**
 
 🌐 [mikerobie.tech](https://mikerobie.tech)
 
